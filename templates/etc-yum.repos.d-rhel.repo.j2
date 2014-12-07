@@ -1,0 +1,13 @@
+[{{ item.file }}]
+name={{ item.name }}
+{% if item.mirrorlist is defined %}
+mirrorlist={{ item.mirrorlist }}
+{% endif %}
+{% if item.url is defined %}
+baseurl={{ item.url }}
+{% endif %}
+enabled={{ item.enabled }}
+priority={{ item.priority }}
+gpgcheck={{ item.gpgcheck }}
+gpgkey={{ item.gpgkey }}
+

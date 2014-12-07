@@ -1,0 +1,63 @@
+---
+# tasks file for ossec-server
+
+- name: Install the correct repository
+  include: "RedHat.yml"
+  when: ansible_os_family == "RedHat"
+
+- name: Install the correct repository
+  include: "Debian.yml"
+  when: ansible_os_family == "Debian"
+
+- name: Installing SSL files.
+  copy: src={{ item }}
+        dest=/var/ossec/etc/{{ item }}
+        owner=root
+        group=root
+        mode=0660
+  with_items:
+    - sslmanager.key
+    - sslmanager.cert
+  tags:
+    - config
+
+- name: Configure the shared-agent.conf
+  template: src=var-ossec-etc-shared-agent.conf.j2
+            dest=/var/ossec/etc/shared/agent.conf
+            owner=ossec
+            group=ossec
+            mode=0644
+  notify: restart ossec-server
+  tags:
+    - init
+    - config
+
+- name: Installing the local_rules.xml
+  template: src=var-ossec-rules-local_rules.xml.j2
+            dest=/var/ossec/rules/local_rules.xml
+            owner=root
+            group=root
+            mode=0644
+  notify: restart ossec-server
+  tags:
+    - init
+    - config
+    - rules
+
+- name: Configure the ossec-server
+  template: src=var-ossec-etc-ossec-server.conf.j2
+            dest=/var/ossec/etc/ossec-server.conf
+            owner=root
+            group=root
+            mode=0644
+  notify: restart ossec-server
+  tags:
+    - init
+    - config
+
+- name: Make sure the symbolic link is there
+  file: src=/var/ossec/etc/ossec-server.conf 
+        dest=/var/ossec/etc/ossec.conf 
+        state=link
+  when: ansible_os_family == "RedHat"
+

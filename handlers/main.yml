@@ -1,0 +1,7 @@
+---
+# handlers file for ossec-server
+
+- name: restart ossec-server
+  service: name=ossec-hids
+           state=restarted
+           enabled=yes

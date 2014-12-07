@@ -1,0 +1,45 @@
+<agent_config os="Linux">
+  <syscheck>
+    <frequency>{{ linux_frequency_check }}</frequency>
+
+    <!-- Directories to check  (perform all possible verifications) -->
+    <directories check_all="yes">/etc,/usr/bin,/usr/sbin</directories>
+    <directories check_all="yes">/bin,/sbin</directories>
+
+    <!-- Files/directories to ignore -->
+{% for item in linux_ignore_files %}
+    <ignore>{{ item}}</ignore>
+{% endfor %}
+
+  </syscheck>
+
+  <!-- Files to monitor (localfiles) -->
+{% for item in monitor_files %}
+  <localfile>
+     <log_format>{{ item.format }}</log_format>
+     <location>{{ item.location }}</location>
+  </localfile>
+{% endfor %}
+</agent_config>
+
+<agent_config os="Windows">
+  <syscheck>
+    <frequency>{{ windows_frequency_check }}</frequency>
+
+    <!-- Windows files to ignore -->
+{% for item in windows_ignore_files %}
+    <ignore>{{ item}}</ignore>
+{% endfor %}
+  </syscheck>
+</agent_config>
+
+<agent_config>
+  <rootcheck>
+    <rootkit_files>/var/ossec/etc/shared/rootkit_files.txt</rootkit_files>
+    <rootkit_trojans>/var/ossec/etc/shared/rootkit_trojans.txt</rootkit_trojans>
+    <system_audit>/var/ossec/etc/shared/system_audit_rcl.txt</system_audit>
+    <system_audit>/var/ossec/etc/shared/cis_debian_linux_rcl.txt</system_audit>
+    <system_audit>/var/ossec/etc/shared/cis_rhel_linux_rcl.txt</system_audit>
+    <system_audit>/var/ossec/etc/shared/cis_rhel5_linux_rcl.txt</system_audit>
+  </rootcheck>
+</agent_config>
