@@ -3,9 +3,11 @@
 <ossec_config>
   <global>
     <email_notification>yes</email_notification>
-    <email_to>daniel.cid@xxx.com</email_to>
-    <smtp_server>smtp.xxx.com.</smtp_server>
-    <email_from>ossecm@ossec.xxx.com.</email_from>
+{% for item in mail_to %}
+    <email_to>{{ item }}</email_to>
+{& endfor %}
+    <smtp_server>{{ mail_smtp_server }}</smtp_server>
+    <email_from>{{ mail_from }}</email_from>
   </global>
 
   <rules>
