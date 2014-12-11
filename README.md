@@ -15,42 +15,111 @@ So, you'll need one of those operating systems.. :-)
 Role Variables
 --------------
 
-The roles has some arrays you can override:
-`linux_frequency_check`: The amount of seconds it will do an frequency check. (Default 22 hours)
-`windows_frequency_check`: The amount of seconds it will do an frequency check. (Default 22 hours)
-
-
-`linux_ignore_files`: List of all files that can be ignored on a linux host.
-```yaml
-linux_ignore_files:
-  - /etc/mtab
-  - /etc/mnttab
-  - /etc/hosts.deny
+This role has some variables which you can or need to override.
+```
+ossec_server_config: []
+ossec_agent_configs: []
 ```
 
-`ignore_windows_files`: List of all files that can be ignored on a Windows host.
-```yaml
-windows_ignore_files:
-  - C:\WINDOWS/System32/LogFiles
-  - C:\WINDOWS/Debug
-  - C:\WINDOWS/WindowsUpdate.log
-```
+###Example setup
 
-`monitor_files`: This has a mulitple key value pair for monitoring the logfiles. "format" will describe what kind of file it is, "location" is the path to the file.
-```yaml
-monitor_files:
-  - { format: 'syslog', location: '/var/log/messages' }
-  - { format: 'syslog', location: '/var/log/secure' }
-  - { format: 'syslog', location: '/var/log/maillog' }
-```
+Edit the vars file for the host which runs the ossec-server: 
+### host_vars/ossec-server
+	ossec_server_config:
+	  mail_to:
+	    - me@example.com
+	  mail_smtp_server: mail.example.com
+	  mail_from: ossec@example.com
+	  frequency_check: 72000
+	  ignore_files:
+	    - /etc/mtab
+	    - /etc/mnttab
+	    - /etc/hosts.deny
+	  directories:
+	    - check_all: 'yes'
+	      dirs: /etc,/usr/bin,/usr/sbin
+	    - check_all: 'yes'
+	      dirs: /bin,/sbin
+	  localfiles:
+	    - format: 'syslog'
+	      location: '/var/log/messages'
+	    - format: 'syslog'
+	      location: '/var/log/secure'
+	  globals:
+	    - '127.0.0.1'
+	    - '192.168.2.1'
+	  connection: 'secure'
+	  log_level: 1
+	  email_level: 7
+	  commands:
+	    - name: 'host-deny'
+	      executable: 'host-deny.sh'
+	      expect: 'srcip'
+	      timeout_allowed: 'yes'
+	  active_responses:
+	    - command: 'host-deny'
+	      location: 'local'
+	      level: 6
+	      timeout: 600
+	  localfiles:
+	    - format: 'syslog'
+	      location: '/var/log/messages'
+	    - format: 'syslog'
+	      location: '/var/log/secure'
 
+	ossec_agent_configs:
+ 	 - type: os
+    	type_value: linux
+    	frequency_check: 79200
+		ignore_files:
+		  - /etc/mtab
+		  - /etc/mnttab
+		  - /etc/hosts.deny
+		  - /etc/mail/statistics
+		  - /etc/svc/volatile
+		directories:
+		  - check_all: yes
+			dirs: /etc,/usr/bin,/usr/sbin
+		  - check_all: yes
+			dirs: /bin,/sbin
+		localfiles:
+		  - format: 'syslog'
+			location: '/var/log/messages'
+		  - format: 'syslog'
+			location: '/var/log/secure'
+		  - format: 'syslog'
+			location: '/var/log/maillog'
+		  - format: 'apache'
+			location: '/var/log/httpd/error_log'
+		  - format: 'apache'
+			location: '/var/log/httpd/access_log'
+		  - format: 'apache'
+			location: '/var/ossec/logs/active-responses.log'
+
+####ossec_server_config:
+At first, there is the server configuration. Change it for your needs, as this default setup won't do any good for you. (You don't have access to use the mail.example.com mailhost. :-))
+
+
+####ossec_agent_configs:
+http://ossec-docs.readthedocs.org/en/latest/manual/agent/agent-configuration.html
+
+There are 3 "types":
+  * os
+  * name
+  * profile
+
+In the above setup, the type is os. And this configuration is for the "linux" os. You can have several types configured in the host_vars file, so you can create all kind of different configs.
+
+You can find here some more information about the ossec shared agent configuration: http://ossec-docs.readthedocs.org/en/latest/manual/syscheck/
+
+#### <_role_>/vars/main.yml
 In the vars file, there is the following parameter:
 `ossec_release_rpm`: This is the name of the ossec-release rpm file (Default: ossec-release-1.0-2.el6.art.noarch.rpm)
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No dependencies.
 
 Example Playbook
 ----------------

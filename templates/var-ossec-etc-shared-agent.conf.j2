@@ -1,37 +1,26 @@
-<agent_config os="Linux">
+{% for item in ossec_agent_configs %}
+<agent_config {{ item.type }}="{{ item.type_value }}">
   <syscheck>
-    <frequency>{{ linux_frequency_check }}</frequency>
-
-    <!-- Directories to check  (perform all possible verifications) -->
-    <directories check_all="yes">/etc,/usr/bin,/usr/sbin</directories>
-    <directories check_all="yes">/bin,/sbin</directories>
-
-    <!-- Files/directories to ignore -->
-{% for item in linux_ignore_files %}
-    <ignore>{{ item}}</ignore>
+  <!-- Directories to check (perform all possible verifications) -->
+{% for directory in item.directories %}
+  <directories check_all="{{ directory.check_all }}">{{ directory.dirs }}</directories>
 {% endfor %}
-
+    <!-- files we don't watch/ignore -->
+    <frequency>{{ item.frequency_check }}</frequency>
+    {% for ignore_file in item.ignore_files %}
+    <ignore>{{ ignore_file }}</ignore>
+    {% endfor %}
   </syscheck>
 
   <!-- Files to monitor (localfiles) -->
-{% for item in monitor_files %}
+{% for localfile in item.localfiles %}
   <localfile>
-     <log_format>{{ item.format }}</log_format>
-     <location>{{ item.location }}</location>
+     <log_format>{{ localfile.format }}</log_format>
+     <location>{{ localfile.location }}</location>
   </localfile>
 {% endfor %}
 </agent_config>
-
-<agent_config os="Windows">
-  <syscheck>
-    <frequency>{{ windows_frequency_check }}</frequency>
-
-    <!-- Windows files to ignore -->
-{% for item in windows_ignore_files %}
-    <ignore>{{ item}}</ignore>
 {% endfor %}
-  </syscheck>
-</agent_config>
 
 <agent_config>
   <rootcheck>
