@@ -6,12 +6,6 @@
     ansible_distribution: centos
   when: ansible_distribution == "RedHat"
 
-- name: RedHat | Install release RPM
-  yum: name=https://www.atomicorp.com/channels/ossec/{{ ansible_distribution|lower }}/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/RPMS/{{ ossec_release_rpm }}
-       state=present
-  tags:
-    - init
-
 - name: RedHat | Install atomicorp repo file
   template: src=etc-yum.repos.d-rhel.repo.j2
             dest={{ item.dest }}
