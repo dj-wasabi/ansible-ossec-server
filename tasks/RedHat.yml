@@ -34,7 +34,6 @@
   with_items:
     - ossec-hids
     - ossec-hids-server
-    - ossec-rules
   tags:
     - init
 
