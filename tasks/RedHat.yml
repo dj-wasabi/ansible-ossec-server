@@ -24,23 +24,9 @@
   tags:
     - init
 
-- name: RedHat | Install epel repo file
-  template: src=etc-yum.repos.d-rhel.repo.j2
-            dest={{ item.dest }}
-            owner=root
-            group=root
-            mode=0644
-  with_items:
-  - { file: 'epel',
-      name: 'epel',
-      dest: '/etc/yum.repos.d/epel.repo',
-      url: "http://mirror.i3d.net/pub/fedora-epel/$releasever/$basearch/",
-      priority: 2,
-      enabled: 1,
-      gpgcheck: 1,
-      gpgkey: "http://mirror.i3d.net/pub/fedora-epel/RPM-GPG-KEY-EPEL-6" }
-  tags:
-    - init
+- name: RedHat | Install epel repo
+  yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ansible_distribution_major_version}}.noarch.rpm state=present
+
 
 - name: RedHat | Install ossec-hids-server
   yum: pkg={{ item }}
