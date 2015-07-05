@@ -22,7 +22,7 @@
   - { file: 'ossec',
       name: 'CentOS / Red Hat Enterprise Linux $releasever - ossec.net',
       dest: '/etc/yum.repos.d/ossec.repo',
-      mirrorlist: "http://updates.atomicorp.com/channels/mirrorlist/ossec/centos-6-$basearch",
+      mirrorlist: "http://updates.atomicorp.com/channels/mirrorlist/ossec/centos-{{ ansible_distribution_major_version }}-$basearch",
       enabled: 1,
       priority: 1,
       gpgcheck: 1,
