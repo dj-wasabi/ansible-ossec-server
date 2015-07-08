@@ -113,8 +113,7 @@ In the above setup, the type is os. And this configuration is for the "linux" os
 You can find here some more information about the ossec shared agent configuration: http://ossec-docs.readthedocs.org/en/latest/manual/syscheck/
 
 #### <_role_>/vars/main.yml
-In the vars file, there is the following parameter:
-`ossec_release_rpm`: This is the name of the ossec-release rpm file (Default: ossec-release-1.0-2.el6.art.noarch.rpm)
+nil
 
 Dependencies
 ------------
