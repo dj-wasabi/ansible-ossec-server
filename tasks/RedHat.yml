@@ -6,23 +6,8 @@
     ansible_distribution: centos
   when: ansible_distribution == "RedHat"
 
-- name: RedHat | Install atomicorp repo file
-  template: src=etc-yum.repos.d-rhel.repo.j2
-            dest={{ item.dest }}
-            owner=root
-            group=root
-            mode=0644
-  with_items:
-  - { file: 'ossec',
-      name: 'CentOS / Red Hat Enterprise Linux $releasever - ossec.net',
-      dest: '/etc/yum.repos.d/ossec.repo',
-      mirrorlist: "http://updates.atomicorp.com/channels/mirrorlist/ossec/centos-{{ ansible_distribution_major_version }}-$basearch",
-      enabled: 1,
-      priority: 1,
-      gpgcheck: 1,
-      gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY.ossec.txt' }
-  tags:
-    - init
+- name: RedHat | Install atomicorp repo
+  yum: name=https://www.atomicorp.com/channels/atomic/centos/{{ansible_distribution_major_version}}/x86_64/RPMS/atomic-release-1.0-19.el{{ansible_distribution_major_version}}.art.noarch.rpm state=present
 
 - name: RedHat | Install epel repo
   yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ansible_distribution_major_version}}.noarch.rpm state=present
