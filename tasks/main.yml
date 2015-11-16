@@ -44,9 +44,21 @@
     - config
     - rules
 
+- name: Set ossec deploy facts for RedHat
+  set_fact:
+    ossec_server_config_filename: ossec-server.conf
+    ossec_init_name: ossec-hids
+  when: ansible_os_family == "RedHat"
+
+- name: Set ossec deploy facts for Debian
+  set_fact:
+    ossec_server_config_filename: ossec.conf
+    ossec_init_name: ossec
+  when: ansible_os_family == "Debian"
+
 - name: Configure the ossec-server
   template: src=var-ossec-etc-ossec-server.conf.j2
-            dest=/var/ossec/etc/ossec-server.conf
+            dest=/var/ossec/etc/{{ ossec_server_config_filename }}
             owner=root
             group=root
             mode=0644
@@ -54,10 +66,3 @@
   tags:
     - init
     - config
-
-- name: Make sure the symbolic link is there
-  file: src=/var/ossec/etc/ossec-server.conf 
-        dest=/var/ossec/etc/ossec.conf 
-        state=link
-  when: ansible_os_family == "RedHat"
-
