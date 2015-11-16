@@ -2,12 +2,16 @@
 
 <ossec_config>
   <global>
+    {% if ossec_server_config.email_notification is not defined or ossec_server_config.email_notification | lower == "yes" %}
     <email_notification>yes</email_notification>
 {% for ossec_server_config in ossec_server_config.mail_to %}
     <email_to>{{ ossec_server_config }}</email_to>
 {% endfor %}
     <smtp_server>{{ ossec_server_config.mail_smtp_server }}</smtp_server>
     <email_from>{{ ossec_server_config.mail_from }}</email_from>
+    {% else %}
+    <email_notification>no</email_notification>
+    {% endif %}
   </global>
 
   <rules>
@@ -90,6 +94,8 @@
   <rootcheck>
     <rootkit_files>/var/ossec/etc/shared/rootkit_files.txt</rootkit_files>
     <rootkit_trojans>/var/ossec/etc/shared/rootkit_trojans.txt</rootkit_trojans>
+    <system_audit>/var/ossec/etc/shared/system_audit_rcl.txt</system_audit>
+    <system_audit>/var/ossec/etc/shared/{{ cis_distribution_filename }}</system_audit>
   </rootcheck>
 
   <global>
@@ -133,6 +139,14 @@
      <log_format>{{ localfile.format }}</log_format>
      <location>{{ localfile.location }}</location>
   </localfile>
+{% endfor %}
+
+{% for syslog_output in ossec_server_config.syslog_outputs %}
+  <syslog_output>
+    <server>{{ syslog_output.server }}</server>
+    <port>{{ syslog_output.port }}</port>
+    <format>{{ syslog_output.format }}</format>
+  </syslog_output>
 {% endfor %}
 
 </ossec_config>
