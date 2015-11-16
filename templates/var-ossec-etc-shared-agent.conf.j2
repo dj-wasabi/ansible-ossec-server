@@ -16,7 +16,11 @@
 {% for localfile in item.localfiles %}
   <localfile>
      <log_format>{{ localfile.format }}</log_format>
+     {% if localfile.command is defined %}
+     <command>{{ localfile.command }}</command>
+     {% else %}
      <location>{{ localfile.location }}</location>
+     {% endif %}
   </localfile>
 {% endfor %}
 </agent_config>
