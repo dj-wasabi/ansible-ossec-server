@@ -4,7 +4,7 @@ Below an overview of all changes in the releases.
 
 Version (Release date)
 
-0.1.0   (2015-11-15)
+0.1.0   (2015-11-16)
 
   * Fixes for CentOS/EL7 #1 (By pull request: andskli (Thanks!))
   * Updates to support Ubuntu and also adds more configuration options #2 (By pull request: recunius (Thanks!))
