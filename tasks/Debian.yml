@@ -1,10 +1,9 @@
 ---
-- name: Debian/Ubuntu | Installing repository
-  apt_repository: repo="deb http://ossec.alienvault.com/repos/apt/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main" state=present
-
 - name: Debian/Ubuntu | Installing repository key
   apt_key: url=http://ossec.alienvault.com/repos/apt/conf/ossec-key.gpg.key
-           id=9A1B1C65
+
+- name: Debian/Ubuntu | Installing repository
+  apt_repository: repo="deb http://ossec.alienvault.com/repos/apt/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main" state=present
 
 - name: Debian/Ubuntu | Install ossec-hids
   apt: pkg=ossec-hids
