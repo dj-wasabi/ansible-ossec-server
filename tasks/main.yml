@@ -79,6 +79,11 @@
     ossec_init_name: ossec
   when: ansible_os_family == "Debian"
 
+- name: Enable ossec client-syslog if syslog_output is enabled in configuration
+  command: /var/ossec/bin/ossec-control enable client-syslog
+  notify: restart ossec-server
+  when: ossec_server_config.syslog_outputs is defined
+
 - name: Configure the ossec-server
   template: src=var-ossec-etc-ossec-server.conf.j2
             dest=/var/ossec/etc/{{ ossec_server_config_filename }}
