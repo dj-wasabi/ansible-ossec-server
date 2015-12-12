@@ -4,8 +4,8 @@
   <global>
     {% if ossec_server_config.email_notification is not defined or ossec_server_config.email_notification | lower == "yes" %}
     <email_notification>yes</email_notification>
-{% for ossec_server_config in ossec_server_config.mail_to %}
-    <email_to>{{ ossec_server_config }}</email_to>
+{% for to in ossec_server_config.mail_to %}
+    <email_to>{{ to }}</email_to>
 {% endfor %}
     <smtp_server>{{ ossec_server_config.mail_smtp_server }}</smtp_server>
     <email_from>{{ ossec_server_config.mail_from }}</email_from>
@@ -13,6 +13,35 @@
     <email_notification>no</email_notification>
     {% endif %}
   </global>
+
+{% if ossec_server_config.extra_emails is defined %}
+{% for mail in ossec_server_config.extra_emails %}
+  <email_alerts>
+    <email_to>{{ mail.mail_to }}</email_to>
+    {% if mail.format is defined %}
+    <format>{{ mail.format }}</format>
+    {% endif %}
+    {% if mail.level is defined %}
+    <level>{{ mail.level }}</level>
+    {% endif %}
+    {% if mail.event_location is defined %}
+    <event_location>{{ mail.event_location }}</event_location>
+    {% endif %}
+    {% if mail.group is defined %}
+    <group>{{ mail.group }}</group>
+    {% endif %}
+    {% if mail.do_not_delay is defined and mail.do_not_delay == true %}
+    <do_not_delay />
+    {% endif %}
+    {% if mail.do_not_group is defined and mail.do_not_group == true %}
+    <do_not_group />
+    {% endif %}
+    {% if mail.rule_id is defined %}
+    <rule_id>{{ mail.rule_id }}</rule_id>
+    {% endif %}
+  </email_alerts>
+{% endfor %}    
+{% endif %}
 
   <rules>
     <include>rules_config.xml</include>
