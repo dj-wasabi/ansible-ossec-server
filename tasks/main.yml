@@ -73,6 +73,22 @@
     ossec_init_name: ossec-hids
   when: ansible_os_family == "RedHat"
 
+- name: Check if client-syslog is enabled
+  shell: "/var/ossec/bin/ossec-control status | grep -c 'ossec-csyslogd is running' | xargs echo"
+  register: csyslog_running
+  changed_when: False
+
+- name: Check csyslog_running output
+  debug: msg="csyslog running? '{{ csyslog_running.stdout }}'"
+
+- name: Enable client-syslog if not running and ossec_server_config.syslog_outputs is given
+  command: /var/ossec/bin/ossec-control enable client-syslog
+  when: csyslog_running.stdout == '0' and ossec_server_config.syslog_outputs is defined
+
+- name: Start client-syslog if not running and ossec_server_config.syslog_outputs is given
+  command: /var/ossec/bin/ossec-control start client-syslog
+  when: csyslog_running.stdout == '0' and ossec_server_config.syslog_outputs is defined
+
 - name: Set ossec deploy facts for Debian
   set_fact:
     ossec_server_config_filename: ossec.conf
