@@ -78,9 +78,6 @@
   register: csyslog_running
   changed_when: False
 
-- name: Check csyslog_running output
-  debug: msg="csyslog running? '{{ csyslog_running.stdout }}'"
-
 - name: Enable client-syslog if not running and ossec_server_config.syslog_outputs is given
   command: /var/ossec/bin/ossec-control enable client-syslog
   when: csyslog_running.stdout == '0' and ossec_server_config.syslog_outputs is defined
@@ -94,11 +91,6 @@
     ossec_server_config_filename: ossec.conf
     ossec_init_name: ossec
   when: ansible_os_family == "Debian"
-
-- name: Enable ossec client-syslog if syslog_output is enabled in configuration
-  command: /var/ossec/bin/ossec-control enable client-syslog
-  notify: restart ossec-server
-  when: ossec_server_config.syslog_outputs is defined
 
 - name: Configure the ossec-server
   template: src=var-ossec-etc-ossec-server.conf.j2
