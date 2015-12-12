@@ -68,7 +68,7 @@ Edit the vars file for the host which runs the ossec-server:
 	      location: '/var/log/secure'
 
 	ossec_agent_configs:
- 	 - type: os
+ 	  - type: os
     	type_value: linux
     	frequency_check: 79200
 		ignore_files:
@@ -128,6 +128,11 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: ossec-server.example.com
       roles:
          - { role: dj-wasabi.ossec-server }
+
+##Test Kitchen
+
+This roles is configured to be tested with Test Kitchen. You can find on this page some more information regarding Test Kitchen: http://werner-dijkerman.nl/2015/08/20/using-test-kitchen-with-docker-and-serverspec-to-test-ansible-roles/
+
 
 License
 -------

@@ -170,6 +170,7 @@
   </localfile>
 {% endfor %}
 
+{% if ossec_server_config.syslog_outputs is defined %}
 {% for syslog_output in ossec_server_config.syslog_outputs %}
   <syslog_output>
     <server>{{ syslog_output.server }}</server>
@@ -177,5 +178,6 @@
     <format>{{ syslog_output.format }}</format>
   </syslog_output>
 {% endfor %}
+{% endif %}
 
 </ossec_config>
