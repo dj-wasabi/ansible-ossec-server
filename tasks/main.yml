@@ -32,12 +32,27 @@
     - init
     - config
 
-- name: Installing the local_rules.xml
+- name: Installing custom local_rules.xml
+  template:
+    src: "{{ playbook_dir }}/{{ ossec_server_config.local_rules_template }}"
+    dest: /var/ossec/rules/local_rules.xml
+    owner: root
+    group: root
+    mode: 0644
+  when: ossec_server_config.local_rules_template is defined
+  notify: restart ossec-server
+  tags:
+    - init
+    - config
+    - rules
+
+- name: Installing the local_rules.xml (default local_rules.xml)
   template: src=var-ossec-rules-local_rules.xml.j2
             dest=/var/ossec/rules/local_rules.xml
             owner=root
             group=root
             mode=0644
+  when: ossec_server_config.local_rules_template is not defined
   notify: restart ossec-server
   tags:
     - init
