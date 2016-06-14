@@ -67,6 +67,14 @@
     owner: root
     group: ossec 
 
+- name: Install RHEL7 CIS Root Checks  
+  get_url:
+    url: https://raw.githubusercontent.com/ossec/ossec-hids/master/src/rootcheck/db/cis_rhel7_linux_rcl.txt
+    dest: /var/ossec/etc/shared/cis_rhel7_linux_rcl.txt
+    mode: 0660
+    owner: root
+    group: ossec 
+
 - name: Set Distribution CIS filename for Debian/Ubuntu
   set_fact:
     cis_distribution_filename: cis_debian_linux_rcl.txt
@@ -81,6 +89,11 @@
   set_fact:
     cis_distribution_filename: cis_rhel6_linux_rcl.txt
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
+
+- name: Set Distribution CIS filename for RHEL7
+  set_fact:
+    cis_distribution_filename: cis_rhel7_linux_rcl.txt
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
 
 - name: Set ossec deploy facts for RedHat
   set_fact:
