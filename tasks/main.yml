@@ -119,10 +119,12 @@
     - config
 
 - name: Write ossec-authd init systemd file
-  template:
-    src: ossec-authd-init.service
-    dest: /etc/init.d/ossec-authd
-  when: ansible_service_mgr == "init" and ansible_os_family != "CoreOS"
+  template: src=wazuh-authd-init.service
+            dest=/etc/init.d/wazuh-authd
+            owner=root
+            group=root
+            mode=0755
+  when: ansible_service_mgr == "upstart" and ansible_os_family != "CoreOS"
   tags:
     - init
     - config
