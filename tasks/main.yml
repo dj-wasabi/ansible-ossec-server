@@ -65,7 +65,7 @@
     dest: /var/ossec/etc/shared/cis_rhel6_linux_rcl.txt
     mode: 0660
     owner: root
-    group: ossec 
+    group: ossec
 
 - name: Set Distribution CIS filename for Debian/Ubuntu
   set_fact:
@@ -117,3 +117,29 @@
   tags:
     - init
     - config
+
+- name: Write ossec-authd init systemd file
+  template:
+    src: ossec-authd-init.service
+    dest: /etc/init.d/ossec-authd
+  when: ansible_service_mgr == "init" and ansible_os_family != "CoreOS"
+  tags:
+    - init
+    - config
+
+- name: Write ossec-authd init file
+  template:
+    src: ossec-authd.service
+    dest: /lib/systemd/system/ossec-authd.service
+  when: ansible_service_mgr == "systemd" and ansible_os_family != "CoreOS"
+  tags:
+    - init
+    - config
+
+- name: Ensure ossec authd service is started and enabled
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - ossec-authd
