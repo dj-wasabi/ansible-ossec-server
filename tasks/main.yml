@@ -9,9 +9,17 @@
   include: "Debian.yml"
   when: ansible_os_family == "Debian"
 
+
+- name: Generate SSL files
+  command: "openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:1825 -keyout sslmanager.key -out sslmanager.cert -subj /CN={{ossec_server_fqdn}}/"
+  args:
+    creates: sslmanager.cert
+    chdir: /var/ossec/etc/
+  tags:
+      - config
+
 - name: Installing SSL files.
-  copy: src={{ item }}
-        dest=/var/ossec/etc/{{ item }}
+  file: path=/var/ossec/etc/{{ item }}
         owner=root
         group=root
         mode=0660
@@ -58,48 +66,6 @@
     - init
     - config
     - rules
-
-- name: Install RHEL6 CIS Root Checks
-  get_url:
-    url: https://raw.githubusercontent.com/ossec/ossec-hids/master/src/rootcheck/db/cis_rhel6_linux_rcl.txt
-    dest: /var/ossec/etc/shared/cis_rhel6_linux_rcl.txt
-    mode: 0660
-    owner: root
-    group: ossec
-
-- name: Install RHEL7 CIS Root Checks  
-  get_url:
-    url: https://raw.githubusercontent.com/ossec/ossec-hids/master/src/rootcheck/db/cis_rhel7_linux_rcl.txt
-    dest: /var/ossec/etc/shared/cis_rhel7_linux_rcl.txt
-    mode: 0660
-    owner: root
-    group: ossec 
-
-- name: Set Distribution CIS filename for Debian/Ubuntu
-  set_fact:
-    cis_distribution_filename: cis_debian_linux_rcl.txt
-  when: ansible_os_family == "Debian"
-
-- name: Set Distribution CIS filename for RHEL5
-  set_fact:
-    cis_distribution_filename: cis_rhel5_linux_rcl.txt
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "5"
-
-- name: Set Distribution CIS filename for RHEL6
-  set_fact:
-    cis_distribution_filename: cis_rhel6_linux_rcl.txt
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
-
-- name: Set Distribution CIS filename for RHEL7
-  set_fact:
-    cis_distribution_filename: cis_rhel7_linux_rcl.txt
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
-
-- name: Set ossec deploy facts for RedHat
-  set_fact:
-    ossec_server_config_filename: ossec-server.conf
-    ossec_init_name: ossec-hids
-  when: ansible_os_family == "RedHat"
 
 - name: Check if client-syslog is enabled
   shell: "/var/ossec/bin/ossec-control status | grep -c 'ossec-csyslogd is running' | xargs echo"
