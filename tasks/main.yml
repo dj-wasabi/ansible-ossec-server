@@ -97,9 +97,9 @@
     - init
     - config
 
-- name: Write ossec-authd init systemd file
-  template: src=wazuh-authd-init.service
-            dest=/etc/init.d/wazuh-authd
+- name: Write ossec-authd init file
+  template: src=ossec-authd-init.service
+            dest=/etc/init.d/ossec-authd
             owner=root
             group=root
             mode=0755
@@ -108,7 +108,7 @@
     - init
     - config
 
-- name: Write ossec-authd init file
+- name: Write ossec-authd systemd file
   template:
     src: ossec-authd.service
     dest: /lib/systemd/system/ossec-authd.service
