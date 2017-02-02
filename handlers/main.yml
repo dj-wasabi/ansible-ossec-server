@@ -5,3 +5,6 @@
   service: name={{ ossec_init_name }}
            state=restarted
            enabled=yes
+
+- name: systemd daemon-reload
+  command: systemctl daemon-reload
