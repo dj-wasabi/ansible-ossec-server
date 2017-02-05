@@ -1,0 +1,20 @@
+---
+- hosts: all
+  pre_tasks:
+    - name: "Installing which on CentOS"
+      action: yum
+              name={{ item }}
+              state=installed
+      with_items:
+        - net-tools
+        - which
+      when: ansible_distribution == 'CentOS'
+    - name: "Installing which on NON-CentOS"
+      action: apt
+              name={{ item }}
+              state=installed
+      with_items:
+        - net-tools
+      when: ansible_distribution != 'CentOS'
+  roles:
+    - role: ansible-ossec-server

@@ -1,2 +1,5 @@
 .idea/
 .kitchen/
+.cache
+.molecule
+__pycache__
