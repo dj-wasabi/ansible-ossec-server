@@ -119,8 +119,6 @@
 
 - name: Ensure ossec authd service is started and enabled
   service:
-    name: "{{ item }}"
+    name: "{{ ossec_init_name }}"
     enabled: yes
     state: started
-  with_items:
-    - ossec-authd
