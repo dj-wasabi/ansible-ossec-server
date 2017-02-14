@@ -3,6 +3,11 @@ Role Name
 
 This role will install the ossec server on a host.
 
+Build Status:
+
+[![Build Status](https://travis-ci.org/dj-wasabi/ansible-ossec-server.svg?branch=master)](https://travis-ci.org/dj-wasabi/ansible-ossec-server)
+
+
 Requirements
 ------------
 
