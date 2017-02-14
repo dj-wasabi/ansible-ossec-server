@@ -129,9 +129,13 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: dj-wasabi.ossec-server }
 
-##Test Kitchen
+##Molecule
 
-This roles is configured to be tested with Test Kitchen. You can find on this page some more information regarding Test Kitchen: http://werner-dijkerman.nl/2015/08/20/using-test-kitchen-with-docker-and-serverspec-to-test-ansible-roles/
+This roles is configured to be tested with Molecule. You can find on this page some more information regarding Molecule: https://werner-dijkerman.nl/2016/07/10/testing-ansible-roles-with-molecule-testinfra-and-docker/
+Molecule will boot 2 docker containers, containing the following OS:
+
+* Debian 8
+* CentOS 7
 
 
 License

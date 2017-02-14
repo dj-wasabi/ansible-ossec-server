@@ -1,2 +1,4 @@
 .idea/
 .kitchen/
+.cache
+.molecule
