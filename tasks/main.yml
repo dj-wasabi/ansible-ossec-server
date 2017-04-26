@@ -113,6 +113,7 @@
     src: ossec-authd.service
     dest: /lib/systemd/system/ossec-authd.service
   when: ansible_service_mgr == "systemd" and ansible_os_family != "CoreOS"
+  notify: systemd daemon-reload
   tags:
     - init
     - config
