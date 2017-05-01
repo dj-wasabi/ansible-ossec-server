@@ -3,7 +3,7 @@
   pre_tasks:
     - name: "Installing which on CentOS"
       yum:
-        name: {{ item }}
+        name: "{{ item }}"
         state: installed
       with_items:
         - net-tools
@@ -12,7 +12,7 @@
 
     - name: "Installing which on NON-CentOS"
       apt:
-        name: {{ item }}
+        name: "{{ item }}"
         state: installed
       with_items:
         - net-tools
