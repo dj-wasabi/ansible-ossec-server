@@ -12,7 +12,7 @@
 - name: Install Debian CIS Root Checks
   get_url:
     url: https://raw.githubusercontent.com/ossec/ossec-hids/master/src/rootcheck/db/cis_debian_linux_rcl.txt
-    dest: /var/ossec/etc/shared/cis_rhel6_linux_rcl.txt
+    dest: /var/ossec/etc/shared/cis_debian_linux_rcl.txt
     mode: 0660
     owner: root
     group: ossec
