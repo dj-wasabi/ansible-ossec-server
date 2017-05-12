@@ -9,6 +9,13 @@
   include: "Debian.yml"
   when: ansible_os_family == "Debian"
 
+- name: Install CIS Root Checks
+  get_url:
+    url: "https://raw.githubusercontent.com/ossec/ossec-hids/master/src/rootcheck/db/{{ cis_distribution_filename }}"
+    dest: "/var/ossec/etc/shared/{{ cis_distribution_filename }}"
+    mode: 0660
+    owner: root
+    group: ossec
 
 - name: Generate SSL files
   command: "openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:1825 -keyout sslmanager.key -out sslmanager.cert -subj /CN={{ossec_server_fqdn}}/"
@@ -79,12 +86,6 @@
 - name: Start client-syslog if not running and ossec_server_config.syslog_outputs is given
   command: /var/ossec/bin/ossec-control start client-syslog
   when: csyslog_running.stdout == '0' and ossec_server_config.syslog_outputs is defined
-
-- name: Set ossec deploy facts for Debian
-  set_fact:
-    ossec_server_config_filename: ossec.conf
-    ossec_init_name: ossec
-  when: ansible_os_family == "Debian"
 
 - name: Configure the ossec-server
   template: src=var-ossec-etc-ossec-server.conf.j2

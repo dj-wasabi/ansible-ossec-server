@@ -9,16 +9,11 @@
   apt: pkg=ossec-hids
        state=present
 
-- name: Install Debian CIS Root Checks
-  get_url:
-    url: https://raw.githubusercontent.com/ossec/ossec-hids/master/src/rootcheck/db/cis_debian_linux_rcl.txt
-    dest: /var/ossec/etc/shared/cis_rhel6_linux_rcl.txt
-    mode: 0660
-    owner: root
-    group: ossec
-
-
 - name: Set Distribution CIS filename for Debian/Ubuntu
   set_fact:
     cis_distribution_filename: cis_debian_linux_rcl.txt
-  when: ansible_os_family == "Debian"
+
+- name: Set ossec deploy facts for Debian
+  set_fact:
+    ossec_server_config_filename: ossec.conf
+    ossec_init_name: ossec
