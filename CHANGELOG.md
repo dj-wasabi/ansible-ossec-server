@@ -4,6 +4,13 @@ Below an overview of all changes in the releases.
 
 Version (Release date)
 
+0.3.0   (2017-05-14)
+
+  * refactor cis_distribution_filename usage to be more dry #16 (By pull request: s01ipsist (Thanks!))
+  * Fixing molecule #15
+  * Fix ossec upstream repository #14 (By pull request: s01ipsist (Thanks!))
+  * Fix debian repository + systemd daemon reload #13  (By pull request: s01ipsist (Thanks!))
+
 0.2.0   (2017-02-14)
 
   * Added molecule testing
