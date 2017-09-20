@@ -1,42 +1,47 @@
 ---
 # Tasks specific for RedHat systems
 
-- name: RedHat | Set some facts
+- name: "RedHat | Set some facts"
   set_fact:
     ansible_distribution: centos
   when: ansible_distribution == "RedHat"
 
-- name: RedHat | Install atomicorp repo
-  yum: name=https://www.atomicorp.com/channels/atomic/centos/{{ansible_distribution_major_version}}/x86_64/RPMS/atomic-release-1.0-21.el{{ansible_distribution_major_version}}.art.noarch.rpm state=present
+- name: "RedHat | Install atomicorp repo"
+  yum:
+    name: "https://www.atomicorp.com/channels/atomic/centos/{{ansible_distribution_major_version}}/x86_64/RPMS/atomic-release-1.0-21.el{{ansible_distribution_major_version}}.art.noarch.rpm"
+    state: present
 
-- name: RedHat | Install epel repo
-  yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ansible_distribution_major_version}}.noarch.rpm state=present
+- name: "RedHat | Install epel repo"
+  yum:
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ansible_distribution_major_version}}.noarch.rpm"
+    state: present
 
-- name: RedHat | Install ossec-hids-server
-  yum: pkg={{ item }}
-       state=present
+- name: "RedHat | Install ossec-hids-server"
+  yum:
+    pkg: "{{ item }}"
+    state: present
   with_items:
     - ossec-hids
     - ossec-hids-server
   tags:
     - init
 
-- name: Set Distribution CIS filename for RHEL5
+- name: "Set Distribution CIS filename for RHEL5"
   set_fact:
     cis_distribution_filename: cis_rhel5_linux_rcl.txt
   when: ansible_distribution_major_version == "5"
 
-- name: Set Distribution CIS filename for RHEL6
+- name: "Set Distribution CIS filename for RHEL6"
   set_fact:
     cis_distribution_filename: cis_rhel6_linux_rcl.txt
   when: ansible_distribution_major_version == "6"
 
-- name: Set Distribution CIS filename for RHEL7
+- name: "Set Distribution CIS filename for RHEL7"
   set_fact:
     cis_distribution_filename: cis_rhel7_linux_rcl.txt
   when: ansible_distribution_major_version == "7"
 
-- name: Set ossec deploy facts for RedHat
+- name: "Set ossec deploy facts for RedHat"
   set_fact:
     ossec_server_config_filename: ossec-server.conf
     ossec_init_name: ossec-hids
