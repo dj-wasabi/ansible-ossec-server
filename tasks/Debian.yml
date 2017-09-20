@@ -1,19 +1,23 @@
 ---
-- name: Debian/Ubuntu | Installing repository key
-  apt_key: url=http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
+- name: "Debian/Ubuntu | Installing repository key"
+  apt_key:
+    url: http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
 
-- name: Debian/Ubuntu | Installing repository
-  apt_repository: repo="deb http://ossec.wazuh.com/repos/apt/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main" state=present
+- name: "Debian/Ubuntu | Installing repository"
+  apt_repository:
+    repo: "deb http://ossec.wazuh.com/repos/apt/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+    state: present
 
-- name: Debian/Ubuntu | Install ossec-hids
-  apt: pkg=ossec-hids
-       state=present
+- name: "Debian/Ubuntu | Install ossec-hids"
+  apt:
+    pkg: ossec-hids
+    state: present
 
-- name: Set Distribution CIS filename for Debian/Ubuntu
+- name: "Set Distribution CIS filename for Debian/Ubuntu"
   set_fact:
     cis_distribution_filename: cis_debian_linux_rcl.txt
 
-- name: Set ossec deploy facts for Debian
+- name: "Set ossec deploy facts for Debian"
   set_fact:
     ossec_server_config_filename: ossec.conf
     ossec_init_name: ossec
