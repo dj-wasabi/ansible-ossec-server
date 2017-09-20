@@ -7,7 +7,7 @@
   when: ansible_distribution == "RedHat"
 
 - name: RedHat | Install atomicorp repo
-  yum: name=https://www.atomicorp.com/channels/atomic/centos/{{ansible_distribution_major_version}}/x86_64/RPMS/atomic-release-1.0-19.el{{ansible_distribution_major_version}}.art.noarch.rpm state=present
+  yum: name=https://www.atomicorp.com/channels/atomic/centos/{{ansible_distribution_major_version}}/x86_64/RPMS/atomic-release-1.0-21.el{{ansible_distribution_major_version}}.art.noarch.rpm state=present
 
 - name: RedHat | Install epel repo
   yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ansible_distribution_major_version}}.noarch.rpm state=present
