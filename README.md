@@ -1,5 +1,5 @@
-Role Name
-=========
+ansible-ossec-server
+====================
 
 This role will install the ossec server on a host.
 
@@ -26,9 +26,11 @@ ossec_server_config: []
 ossec_agent_configs: []
 ```
 
-###Example setup
+Example setup
+-------------
 
-Edit the vars file for the host which runs the ossec-server: 
+Edit the vars file for the host which runs the ossec-server:
+
 ### host_vars/ossec-server
 ```
 ossec_server_config:
@@ -103,11 +105,11 @@ ossec_agent_configs:
         location: '/var/ossec/logs/active-responses.log'
 ```
 
-####ossec_server_config:
+#### ossec_server_config:
 At first, there is the server configuration. Change it for your needs, as this default setup won't do any good for you. (You don't have access to use the mail.example.com mailhost. :-))
 
 
-####ossec_agent_configs:
+#### ossec_agent_configs:
 http://ossec-docs.readthedocs.org/en/latest/manual/agent/agent-configuration.html
 
 There are 3 "types":
@@ -136,7 +138,8 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: dj-wasabi.ossec-server }
 
-##Molecule
+Molecule
+--------
 
 This roles is configured to be tested with Molecule. You can find on this page some more information regarding Molecule: https://werner-dijkerman.nl/2016/07/10/testing-ansible-roles-with-molecule-testinfra-and-docker/
 Molecule will boot 2 docker containers, containing the following OS:
