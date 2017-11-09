@@ -8,3 +8,5 @@
 
 - name: systemd daemon-reload
   command: systemctl daemon-reload
+  tags:
+    - skip_ansible_lint
