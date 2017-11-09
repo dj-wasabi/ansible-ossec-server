@@ -22,6 +22,7 @@ Role Variables
 
 This role has some variables which you can or need to override.
 ```
+ossec_server_atomic_release: 1.0-21
 ossec_server_config: []
 ossec_agent_configs: []
 ```
