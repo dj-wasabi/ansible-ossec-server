@@ -4,6 +4,12 @@ Below an overview of all changes in the releases.
 
 Version (Release date)
 
+0.4.0   (2017-12-27)
+
+  * Fix some formatting issues with the example config in the readme file #19 (By pull request: dale-c-anderson (Thanks!))
+  * Using Molecule V2 #18
+  * Update atomic-release #17 (By pull request: aarnaud (Thanks!))
+
 0.3.0   (2017-05-14)
 
   * refactor cis_distribution_filename usage to be more dry #16 (By pull request: s01ipsist (Thanks!))
