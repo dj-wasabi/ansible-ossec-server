@@ -32,6 +32,10 @@
       with_items: "{{ platforms.results }}"
       when: platforms.changed or docker_images.results | map(attribute='images') | select('equalto', []) | list | count >= 0
 
+    - name: "Create a network"
+      shell: docker network create --ipv6 --subnet="2001:db8::/32" ossec6
+      failed_when: False
+
     - name: Create molecule instance(s)
       docker_container:
         name: "{{ item.name }}"
@@ -44,4 +48,5 @@
         privileged: "{{ item.privileged | default(omit) }}"
         volumes: "{{ item.volumes | default(omit) }}"
         capabilities: "{{ item.capabilities | default(omit) }}"
+        networks: "{{ item.networks | default(omit) }}"
       with_items: "{{ molecule_yml.platforms }}"
