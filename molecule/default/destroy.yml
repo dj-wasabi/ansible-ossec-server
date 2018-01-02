@@ -14,3 +14,7 @@
         state: absent
         force_kill: "{{ item.force_kill | default(True) }}"
       with_items: "{{ molecule_yml.platforms }}"
+
+    - name: "Delete a network"
+      shell: docker network rm ossec6
+      failed_when: False
