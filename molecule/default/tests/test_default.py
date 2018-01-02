@@ -41,7 +41,7 @@ def test_ossec_verify_agent_conf(host):
 def test_sockets_open(Socket, SystemInfo):
     if SystemInfo.distribution == 'debian':
         assert Socket("tcp://0.0.0.0:1515").is_listening
-    elif SystemInfo.distribution == 'centos'::
+    elif SystemInfo.distribution == 'centos':
         assert Socket("tcp://:::1515").is_listening
 
 
