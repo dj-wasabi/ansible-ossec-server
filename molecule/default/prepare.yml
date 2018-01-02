@@ -1,0 +1,19 @@
+---
+- name: Prepare
+  tasks:
+    - name: "Installing which on CentOS"
+      yum:
+        name: "{{ item }}"
+        state: installed
+      with_items:
+        - net-tools
+        - which
+      when: ansible_distribution == 'CentOS'
+
+    - name: "Installing which on NON-CentOS"
+      apt:
+        name: "{{ item }}"
+        state: installed
+      with_items:
+        - net-tools
+      when: ansible_distribution != 'CentOS'
