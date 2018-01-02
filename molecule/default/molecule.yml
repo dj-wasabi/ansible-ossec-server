@@ -13,11 +13,15 @@ platforms:
     groups:
       - ossec
     privileged: True
+    networks:
+      - name: ossec6
   - name: ossec-server-debian
     image: maint/debian-systemd
     groups:
       - ossec
     privileged: True
+    networks:
+      - name: ossec6
 
 provisioner:
   name: ansible
