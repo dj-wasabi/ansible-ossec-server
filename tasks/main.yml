@@ -88,7 +88,7 @@
   shell: "/var/ossec/bin/ossec-control status | grep -c 'ossec-csyslogd is running' | xargs echo"
   register: csyslog_running
   changed_when: False
-  when: 
+  when:
     - ossec_server_config.syslog_outputs is defined
 
 - name: "Enable client-syslog if not running and ossec_server_config.syslog_outputs is given"
