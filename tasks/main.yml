@@ -88,18 +88,20 @@
   shell: "/var/ossec/bin/ossec-control status | grep -c 'ossec-csyslogd is running' | xargs echo"
   register: csyslog_running
   changed_when: False
+  when: 
+    - ossec_server_config.syslog_outputs is defined
 
 - name: "Enable client-syslog if not running and ossec_server_config.syslog_outputs is given"
   command: /var/ossec/bin/ossec-control enable client-syslog
   when:
-    - csyslog_running.stdout == '0'
     - ossec_server_config.syslog_outputs is defined
+    - csyslog_running.stdout == '0'
 
 - name: "Start client-syslog if not running and ossec_server_config.syslog_outputs is given"
   command: /var/ossec/bin/ossec-control start client-syslog
   when:
-    - csyslog_running.stdout == '0'
     - ossec_server_config.syslog_outputs is defined
+    - csyslog_running.stdout == '0'
 
 - name: "Configure the ossec-server"
   template:
