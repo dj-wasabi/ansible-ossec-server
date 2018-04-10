@@ -144,6 +144,6 @@
 
 - name: "Ensure ossec authd service is started and enabled"
   service:
-    name: "{{ ossec_init_name }}"
+    name: ossec-authd
     enabled: yes
     state: started
