@@ -87,9 +87,9 @@ ossec_agent_configs:
       - /etc/mail/statistics
       - /etc/svc/volatile
     directories:
-      - check_all: yes
+      - check_all: 'yes'
         dirs: /etc,/usr/bin,/usr/sbin
-      - check_all: yes
+      - check_all: 'yes'
         dirs: /bin,/sbin
     localfiles:
       - format: 'syslog'
