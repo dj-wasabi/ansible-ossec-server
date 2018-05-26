@@ -22,6 +22,14 @@ platforms:
     privileged: True
     networks:
       - name: ossec6
+  - name: ossec-server-ubuntu
+    image: solita/ubuntu-systemd
+    command: /sbin/init
+    groups:
+      - ossec
+    privileged: True
+    networks:
+      - name: ossec6
 
 provisioner:
   name: ansible
