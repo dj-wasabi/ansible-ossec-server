@@ -3,7 +3,7 @@ galaxy_info:
   author: Werner Dijkerman
   description: Installing and maintaining the ossec-server.
   company: myCompany.Dotcom
-  license: license (GPLv3)
+  license: MIT
   min_ansible_version: 2.4
   platforms:
     - name: EL
