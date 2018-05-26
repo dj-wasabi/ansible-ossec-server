@@ -20,4 +20,9 @@ galaxy_info:
         - all
   categories:
     - monitoring
+  galaxy_tags:
+    - ossec
+    - ossec-server
+    - hids
+    - monitoring
 dependencies: []
