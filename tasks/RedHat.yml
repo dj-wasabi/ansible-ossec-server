@@ -29,24 +29,24 @@
     - init
 
 - block:
-  - name: "Set Distribution CIS filename for RHEL5"
-    set_fact:
-      cis_distribution_filename: cis_rhel5_linux_rcl.txt
-    when: ansible_distribution_major_version == "5"
+    - name: "Set Distribution CIS filename for RHEL5"
+      set_fact:
+        cis_distribution_filename: cis_rhel5_linux_rcl.txt
+      when: ansible_distribution_major_version == "5"
 
-  - name: "Set Distribution CIS filename for RHEL6"
-    set_fact:
-      cis_distribution_filename: cis_rhel6_linux_rcl.txt
-    when: ansible_distribution_major_version == "6"
+    - name: "Set Distribution CIS filename for RHEL6"
+      set_fact:
+        cis_distribution_filename: cis_rhel6_linux_rcl.txt
+      when: ansible_distribution_major_version == "6"
 
-  - name: "Set Distribution CIS filename for RHEL7"
-    set_fact:
-      cis_distribution_filename: cis_rhel7_linux_rcl.txt
-    when: ansible_distribution_major_version == "7"
+    - name: "Set Distribution CIS filename for RHEL7"
+      set_fact:
+        cis_distribution_filename: cis_rhel7_linux_rcl.txt
+      when: ansible_distribution_major_version == "7"
 
-  - name: "Set ossec deploy facts for RedHat"
-    set_fact:
-      ossec_server_config_filename: ossec-server.conf
-      ossec_init_name: ossec-hids
+    - name: "Set ossec deploy facts for RedHat"
+      set_fact:
+        ossec_server_config_filename: ossec-server.conf
+        ossec_init_name: ossec-hids
   tags:
     - always
