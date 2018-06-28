@@ -14,13 +14,13 @@
     state: present
 
 - block:
-  - name: "Set Distribution CIS filename for Debian/Ubuntu"
-    set_fact:
-      cis_distribution_filename: cis_debian_linux_rcl.txt
+    - name: "Set Distribution CIS filename for Debian/Ubuntu"
+      set_fact:
+        cis_distribution_filename: cis_debian_linux_rcl.txt
 
-  - name: "Set ossec deploy facts for Debian"
-    set_fact:
-      ossec_server_config_filename: ossec.conf
-      ossec_init_name: ossec
+    - name: "Set ossec deploy facts for Debian"
+      set_fact:
+        ossec_server_config_filename: ossec.conf
+        ossec_init_name: ossec
   tags:
     - always
