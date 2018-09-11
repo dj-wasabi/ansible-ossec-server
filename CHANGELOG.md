@@ -1,8 +1,19 @@
-#ansible-ossec-server Release
+# ansible-ossec-server Release
 
 Below an overview of all changes in the releases.
 
 Version (Release date)
+
+0.5.0   (2018-09-11)
+
+  * Added tests;Removing pyc file #21
+  * Fixes #22 (By pull request: elrondvega (Thanks!))
+  * Use specific version of libraries #24
+  * Bunch of files #25
+  * Moved some client-syslog after the installation of the configuration … #26
+  * Added Ubuntu #27
+  * Fixes issue #28 (By pull request: dale-c-anderson (Thanks!))
+  * Fix check-mode with syslog-output configured #30 (By pull request: sigio (Thanks!))
 
 0.4.0   (2017-12-27)
 
