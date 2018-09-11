@@ -101,6 +101,7 @@
   shell: "/var/ossec/bin/ossec-control status | grep -c 'ossec-csyslogd is running' | xargs echo"
   register: csyslog_running
   changed_when: False
+  check_mode: False
   when:
     - ossec_server_config.syslog_outputs is defined
 
