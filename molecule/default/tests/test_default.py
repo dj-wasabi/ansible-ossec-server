@@ -1,14 +1,8 @@
-import os
 import pytest
 
-import testinfra.utils.ansible_runner
 
-testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
-
-
-def test_ossec_package_installed(Package):
-    ossec = Package('ossec-hids')
+def test_ossec_package_installed(host):
+    ossec = host.package('ossec-hids')
     assert ossec.is_installed
 
 
@@ -38,18 +32,17 @@ def test_ossec_verify_agent_conf(host):
     assert cmd.rc == 0
 
 
-def test_sockets_open(Socket, SystemInfo):
-    if SystemInfo.distribution == 'debian':
-        assert Socket("tcp://0.0.0.0:1515").is_listening
-    elif SystemInfo.distribution == 'centos':
-        assert Socket("tcp://:::1515").is_listening
+def test_sockets_open(host):
+    if host.system_info.distribution == 'debian':
+        assert host.socket("tcp://0.0.0.0:1515").is_listening
+    elif host.system_info.distribution == 'centos':
+        assert host.socket("tcp://:::1515").is_listening
 
 
-def test_ossec_configuration(File):
-    ossec = File("/var/ossec/etc/ossec.conf")
+def test_ossec_configuration(host):
+    ossec = host.file("/var/ossec/etc/ossec.conf")
     assert ossec.user == "root"
     assert ossec.group == "root"
-
     assert ossec.contains("<email_to>me@example.com</email_to>")
     assert ossec.contains("<ignore>/etc/hosts.deny</ignore>")
     assert ossec.contains("<white_list>127.0.0.1</white_list>")
