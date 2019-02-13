@@ -22,5 +22,6 @@
       set_fact:
         ossec_server_config_filename: ossec.conf
         ossec_init_name: ossec
+        ossec_authd_init_name: ossec-authd
   tags:
     - always
