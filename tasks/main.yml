@@ -138,13 +138,23 @@
   when:
     - ansible_service_mgr == "systemd"
     - ansible_os_family != "CoreOS"
+    - ansible_os_family != "RedHat"
   notify: systemd daemon-reload
   tags:
     - init
     - config
 
+- name: "Remove pidfile line from startup script (breaks systemd controlled rc script)"
+  lineinfile:
+    dest: /etc/rc.d/init.d/ossec-hids-authd
+    regex: '^# pidfile:'
+    state: absent
+  when:
+    - ansible_service_mgr == "systemd"
+    - ansible_os_family == "RedHat"
+
 - name: "Ensure ossec authd service is started and enabled"
   service:
-    name: ossec-authd
+    name: "{{ ossec_authd_init_name }}"
     enabled: yes
     state: started
