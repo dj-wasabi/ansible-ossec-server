@@ -2,9 +2,10 @@
 # handlers file for ossec-server
 
 - name: restart ossec-server
-  service: name={{ ossec_init_name }}
-           state=restarted
-           enabled=yes
+  service:
+    name: "{{ ossec_init_name }}"
+    state: restarted
+    enabled: yes
 
 - name: systemd daemon-reload
   command: systemctl daemon-reload
