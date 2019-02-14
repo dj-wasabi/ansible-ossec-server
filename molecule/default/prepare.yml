@@ -2,19 +2,17 @@
 - name: Prepare
   hosts: all
   tasks:
-    - name: "Installing which on CentOS"
+    - name: "Installing tools on CentOS"
       yum:
-        name: "{{ item }}"
-        state: installed
-      with_items:
-        - net-tools
-        - which
+        pkg:
+          - net-tools
+          - which
+        state: present
       when: ansible_distribution == 'CentOS'
 
-    - name: "Installing which on NON-CentOS"
+    - name: "Installing tools on NON-CentOS"
       apt:
-        name: "{{ item }}"
-        state: installed
-      with_items:
-        - net-tools
+        name:
+          - net-tools
+        state: present
       when: ansible_distribution != 'CentOS'

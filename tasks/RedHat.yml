@@ -3,7 +3,7 @@
 
 - name: "RedHat | Set some facts"
   set_fact:
-    ansible_distribution: centos
+    ansible_distribution: CentOS
   when: ansible_distribution == "RedHat"
   tags:
     - always
@@ -20,11 +20,10 @@
 
 - name: "RedHat | Install ossec-hids-server"
   yum:
-    pkg: "{{ item }}"
+    pkg:
+      - ossec-hids
+      - ossec-hids-server
     state: present
-  with_items:
-    - ossec-hids
-    - ossec-hids-server
   tags:
     - init
 
@@ -48,5 +47,6 @@
       set_fact:
         ossec_server_config_filename: ossec-server.conf
         ossec_init_name: ossec-hids
+        ossec_authd_init_name: ossec-hids-authd
   tags:
     - always

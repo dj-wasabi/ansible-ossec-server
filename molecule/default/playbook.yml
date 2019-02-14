@@ -2,8 +2,3 @@
 - hosts: all
   roles:
     - role: ansible-ossec-server
-  post_tasks:
-    - name: "Starting auth daemon"
-      service:
-        name: ossec-authd
-        state: started
