@@ -1,17 +1,17 @@
 ---
 - name: "Debian/Ubuntu | Installing repository key"
   apt_key:
-    url: http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
+    url: https://www.atomicorp.com/RPM-GPG-KEY.atomicorp.txt
 
 - name: "Debian/Ubuntu | Installing repository"
   apt_repository:
-    repo: "deb http://ossec.wazuh.com/repos/apt/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+    repo: "deb https://updates.atomicorp.com/channels/atomic/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
     state: present
 
 - name: "Debian/Ubuntu | Install ossec-hids"
   apt:
-    pkg: ossec-hids
-    state: present
+    pkg: ossec-hids-server
+    state: latest
 
 - block:
     - name: "Set Distribution CIS filename for Debian/Ubuntu"
