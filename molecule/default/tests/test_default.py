@@ -2,7 +2,7 @@ import pytest
 
 
 def test_ossec_package_installed(host):
-    ossec = host.package('ossec-hids')
+    ossec = host.package('ossec-hids-server')
     assert ossec.is_installed
 
 
@@ -33,9 +33,7 @@ def test_ossec_verify_agent_conf(host):
 
 
 def test_sockets_open(host):
-    if host.system_info.distribution == 'debian':
-        assert host.socket("tcp://0.0.0.0:1515").is_listening
-    elif host.system_info.distribution == 'centos':
+    if host.system_info.distribution == 'centos':
         assert host.socket("tcp://:::1515").is_listening
 
 

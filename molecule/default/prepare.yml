@@ -14,5 +14,6 @@
       apt:
         name:
           - net-tools
+          - apt-transport-https
         state: present
       when: ansible_distribution != 'CentOS'
