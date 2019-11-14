@@ -27,7 +27,13 @@
   tags:
     - init
 
-- block:
+- name: set facts
+  block:
+    - name: "Set Distribution CIS filename for RHEL below 5"
+      set_fact:
+        cis_distribution_filename: cis_rhel_linux_rcl.txt
+      when: ansible_distribution_major_version < "5"
+
     - name: "Set Distribution CIS filename for RHEL5"
       set_fact:
         cis_distribution_filename: cis_rhel5_linux_rcl.txt
@@ -42,6 +48,16 @@
       set_fact:
         cis_distribution_filename: cis_rhel7_linux_rcl.txt
       when: ansible_distribution_major_version == "7"
+
+    - name: "Set Distribution CIS filename for RHEL7"
+      set_fact:
+        cis_distribution_filename: cis_rhel7_linux_rcl.txt
+      when: ansible_distribution_major_version == "7"
+
+    - name: "Set Distribution CIS filename for RHEL8 to that of RHEL7"
+      set_fact:
+        cis_distribution_filename: cis_rhel7_linux_rcl.txt
+      when: ansible_distribution_major_version == "8"
 
     - name: "Set ossec deploy facts for RedHat"
       set_fact:
