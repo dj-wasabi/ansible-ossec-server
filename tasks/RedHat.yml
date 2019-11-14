@@ -13,10 +13,10 @@
     name: "{{ ossec_download_url }}"
     state: present
 
-- name: "RedHat | Install epel repo"
-  yum:
-    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
-    state: present
+# - name: "RedHat | Install epel repo"
+#   yum:
+#     name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+#     state: present
 
 - name: "RedHat | Install ossec-hids-server"
   yum:
