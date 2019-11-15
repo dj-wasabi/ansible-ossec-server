@@ -4,27 +4,44 @@
 # I'm sincerely sorry to anyone reading this
 - name: "Amazon | Find Corresponding Centos Version"
   block:
-    - set_fact:
-        ansible_distribution_major_version: 7
-      when: ansible_distribution_major_version == 2
-    - set_fact:
-        ansible_distribution_major_version: 6
-      when: ansible_distribution_major_version == 1
+    - name: "Amazon | Find Corresponding Centos Version to Amazon 2"
+      set_fact:
+        corresponding_centos_version: 7
+      when: ansible_distribution_major_version == '2'
+    - name: "Amazon | Find Corresponding Centos Version to Amazon 1"
+      set_fact:
+        corresponding_centos_version: 6
+      when: ansible_distribution_major_version == '1'
   tags:
     - always
 
+- name: "Amazon | set ossec repo facts"
+  block:
+    - name: url
+      set_fact: 
+        amazon_ossec_url: "https://www.atomicorp.com/channels/atomic/centos/{{ corresponding_centos_version }}/x86_64/RPMS"
+        amazon_ossec_filename: "atomic-release-{{ ossec_server_atomic_release }}.el{{ corresponding_centos_version }}.art.noarch.rpm"
+
 - name: "Amazon | Install atomicorp repo"
   yum:
-    name: "{{ ossec_download_url }}"
+    name: "{{ amazon_ossec_url }}/{{ amazon_ossec_filename }}"
     state: present
 
 - name: "Amazon | Install epel repo"
   yum:
-    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ corresponding_centos_version }}.noarch.rpm"
     state: present
 
-- name: "RedHat | Install ossec-hids-server"
+# - name: "Amazon | replace $releasever with 7"
+#   lineinfile:
+#     dest: /etc/yum.repos.d/atomic.repo
+#     regexp: '^(.*)$releasever(.*)$'
+#     line: '{{ corresponding_centos_version }}'
+#     backrefs: true
+
+- name: "Amazon | Install ossec-hids-server"
   yum:
+    releasever: '{{ corresponding_centos_version }}'
     pkg:
       - ossec-hids
       - ossec-hids-server
@@ -32,7 +49,7 @@
   tags:
     - init
 
-- name: set Red Hat facts
+- name: "Amazon | set facts"
   block:
     - name: "Set Distribution CIS filename for Amazon 1"
       set_fact:
