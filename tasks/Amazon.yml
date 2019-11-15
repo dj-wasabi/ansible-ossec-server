@@ -1,0 +1,53 @@
+---
+# Tasks specific for Amazon systems
+
+# I'm sincerely sorry to anyone reading this
+- name: "Amazon | Find Corresponding Centos Version"
+  block:
+    - set_fact:
+        ansible_distribution_major_version: 7
+      when: ansible_distribution_major_version == 2
+    - set_fact:
+        ansible_distribution_major_version: 6
+      when: ansible_distribution_major_version == 1
+  tags:
+    - always
+
+- name: "Amazon | Install atomicorp repo"
+  yum:
+    name: "{{ ossec_download_url }}"
+    state: present
+
+- name: "Amazon | Install epel repo"
+  yum:
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+    state: present
+
+- name: "RedHat | Install ossec-hids-server"
+  yum:
+    pkg:
+      - ossec-hids
+      - ossec-hids-server
+    state: present
+  tags:
+    - init
+
+- name: set Red Hat facts
+  block:
+    - name: "Set Distribution CIS filename for Amazon 1"
+      set_fact:
+        cis_distribution_filename: cis_rhel6_linux_rcl.txt
+      when: ansible_distribution_major_version == "1"
+
+    - name: "Set Distribution CIS filename for Amazon 2"
+      set_fact:
+        cis_distribution_filename: cis_rhel7_linux_rcl.txt
+      when: ansible_distribution_major_version == "2"
+
+    - name: "Set ossec deploy facts for RedHat"
+      set_fact:
+        ossec_server_config_filename: ossec-server.conf
+        ossec_init_name: ossec-hids
+        ossec_authd_init_name: ossec-hids-authd
+  tags:
+    - always
