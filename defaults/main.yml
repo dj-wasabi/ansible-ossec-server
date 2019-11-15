@@ -5,6 +5,7 @@ ossec_server_config: []
 ossec_agent_configs: []
 ossec_server_fqdn: "ossec-server"
 ossec_server_atomic_release: 1.0-21
+install_postfix: false
 
 ossec_filename: "atomic-release-{{ ossec_server_atomic_release }}.el{{ ansible_distribution_major_version }}.art.noarch.rpm"
 ossec_url: "https://www.atomicorp.com/channels/atomic/centos/{{ ansible_distribution_major_version }}/x86_64/RPMS"
