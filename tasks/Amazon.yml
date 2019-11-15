@@ -32,13 +32,6 @@
     name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ corresponding_centos_version }}.noarch.rpm"
     state: present
 
-# - name: "Amazon | replace $releasever with 7"
-#   lineinfile:
-#     dest: /etc/yum.repos.d/atomic.repo
-#     regexp: '^(.*)$releasever(.*)$'
-#     line: '{{ corresponding_centos_version }}'
-#     backrefs: true
-
 - name: "Amazon | Install ossec-hids-server"
   yum:
     releasever: '{{ corresponding_centos_version }}'
