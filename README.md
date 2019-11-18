@@ -15,6 +15,7 @@ This role will work on:
  * Red Hat
  * Debian
  * Ubuntu
+ * Amazon Linux (2)
 
 So, you'll need one of those operating systems.. :-)
 
@@ -35,10 +36,21 @@ Edit the vars file for the host which runs the ossec-server:
 
 ### host_vars/ossec-server
 ```
+install_postfix: true
+postfix_mydomain: email-smtp.us-west-1.amazonaws.com
+postfix_sasl_passwds:
+  - "[email-smtp.us-west-1.amazonaws.com]:587 USERNAME:PASSWORD
+postfix_relayhost: false
+postfix_mynetworks: false
+postfix_myhostname: localhost
+postfix_domain: localhost
+postfix_additional_settings:
+  relayhost: "[email-smtp.us-west-1.amazonaws.com]:587"
+
 ossec_server_config:
   mail_to:
     - me@example.com
-  mail_smtp_server: mail.example.com
+  mail_smtp_server: localhost
   mail_from: ossec@example.com
   frequency_check: 72000
   ignore_files:
