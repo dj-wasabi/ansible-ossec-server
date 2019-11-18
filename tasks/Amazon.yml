@@ -39,8 +39,8 @@
 - name: "Amazon | Use corresponding centos repo version"
   replace:
     path: /etc/yum.repos.d/atomic.repo
-    regexp: '^(.*)$releasever(.*)$'
-    replace: '\1 {{ corresponding_centos_version }} \2'
+    regexp: '^(?P<firstpart>.*)\$releasever(?P<lastpart>.*)$'
+    replace: '\g<firstpart>{{ corresponding_centos_version }}\g<lastpart>'
 
 
 - name: "Amazon | Install ossec-hids-server"
