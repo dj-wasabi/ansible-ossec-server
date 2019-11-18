@@ -18,7 +18,7 @@
 - name: "Amazon | set ossec repo facts"
   block:
     - name: url
-      set_fact: 
+      set_fact:
         amazon_ossec_url: "https://www.atomicorp.com/channels/atomic/centos/{{ corresponding_centos_version }}/x86_64/RPMS"
         amazon_ossec_filename: "atomic-release-{{ ossec_server_atomic_release }}.el{{ corresponding_centos_version }}.art.noarch.rpm"
 
