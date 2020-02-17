@@ -40,7 +40,7 @@
     <rule_id>{{ mail.rule_id }}</rule_id>
     {% endif %}
   </email_alerts>
-{% endfor %}    
+{% endfor %}
 {% endif %}
 
   <rules>
@@ -113,11 +113,12 @@
 {% for directory in ossec_server_config.directories %}
    <directories check_all="{{ directory.check_all }}">{{ directory.dirs }}</directories>
 {% endfor %}
-
+{% if ossec_server_config.ignore_files is defined %}
     <!-- Files/directories to ignore -->
     {% for ignore_file in ossec_server_config.ignore_files %}
     <ignore>{{ ignore_file }}</ignore>
-    {% endfor %}    
+    {% endfor %}
+{% endif %}
   </syscheck>
 
   <rootcheck>
@@ -126,12 +127,13 @@
     <system_audit>/var/ossec/etc/shared/system_audit_rcl.txt</system_audit>
     <system_audit>/var/ossec/etc/shared/{{ cis_distribution_filename }}</system_audit>
   </rootcheck>
-
+{% if ossec_server_config.globals is defined %}
   <global>
 {% for white_list in ossec_server_config.globals %}
     <white_list>{{ white_list }}</white_list>
 {% endfor %}
   </global>
+{% endif %}
 
   <remote>
     <connection>{{ ossec_server_config.connection }}</connection>
@@ -141,7 +143,7 @@
     <log_alert_level>{{ ossec_server_config.log_level }}</log_alert_level>
     <email_alert_level>{{ ossec_server_config.email_level }}</email_alert_level>
   </alerts>
-
+{% if ossec_server_config.commands is defined %}
 {% for command in ossec_server_config.commands %}
   <command>
     <name>{{ command.name }}</name>
@@ -150,7 +152,9 @@
     <timeout_allowed>{{ command.timeout_allowed }}</timeout_allowed>
   </command>
 {% endfor %}
+{% endif %}
 
+{% if ossec_server_config.active_responses is defined %}
   <!-- Active Response Config -->
 {% for response in ossec_server_config.active_responses %}
   <active-response>
@@ -160,8 +164,9 @@
     <timeout>{{ response.timeout }}</timeout>
   </active-response>
 {% endfor %}
+{% endif %}
 
-
+{% if ossec_server_config.localfiles is defined %}
   <!-- Files to monitor (localfiles) -->
 {% for localfile in ossec_server_config.localfiles %}
   <localfile>
@@ -169,6 +174,7 @@
      <location>{{ localfile.location }}</location>
   </localfile>
 {% endfor %}
+{% endif %}
 
 {% if ossec_server_config.syslog_outputs is defined %}
 {% for syslog_output in ossec_server_config.syslog_outputs %}

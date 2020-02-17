@@ -1,0 +1,74 @@
+---
+# Tasks specific for Amazon systems
+
+# I'm sincerely sorry to anyone reading this
+- name: "Amazon | Find Corresponding Centos Version"
+  block:
+    - name: "Amazon | Find Corresponding Centos Version to Amazon 2"
+      set_fact:
+        corresponding_centos_version: 7
+      when: ansible_distribution_major_version == '2'
+    - name: "Amazon | Find Corresponding Centos Version to Amazon 1"
+      set_fact:
+        corresponding_centos_version: 6
+      when: ansible_distribution_major_version == '1'
+  tags:
+    - always
+
+- name: "Amazon | set ossec repo facts"
+  block:
+    - name: url
+      set_fact:
+        amazon_ossec_url: "https://www.atomicorp.com/channels/atomic/centos/{{ corresponding_centos_version }}/x86_64/RPMS"
+        amazon_ossec_filename: "atomic-release-{{ ossec_server_atomic_release }}.el{{ corresponding_centos_version }}.art.noarch.rpm"
+
+- name: "Amazon | Install atomicorp repo"
+  yum:
+    name: "{{ amazon_ossec_url }}/{{ amazon_ossec_filename }}"
+    state: present
+
+- name: "Amazon | Install atomicorp repo"
+  debug:
+    msg: "{{ amazon_ossec_url }}/{{ amazon_ossec_filename }}"
+
+# - name: "Amazon | Install epel repo"
+#   yum:
+#     name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ corresponding_centos_version }}.noarch.rpm"
+#     state: present
+
+- name: "Amazon | Use corresponding centos repo version"
+  replace:
+    path: /etc/yum.repos.d/atomic.repo
+    regexp: '^(?P<firstpart>.*)\$releasever(?P<lastpart>.*)$'
+    replace: '\g<firstpart>{{ corresponding_centos_version }}\g<lastpart>'
+
+
+- name: "Amazon | Install ossec-hids-server"
+  yum:
+    # releasever: '{{ corresponding_centos_version }}'
+    pkg:
+      - ossec-hids
+      - ossec-hids-server
+    state: present
+  tags:
+    - init
+
+- name: "Amazon | set facts"
+  block:
+    - name: "Set Distribution CIS filename for Amazon 1"
+      set_fact:
+        cis_distribution_filename: cis_rhel6_linux_rcl.txt
+      when: ansible_distribution_major_version == "1"
+
+    - name: "Set Distribution CIS filename for Amazon 2"
+      set_fact:
+        cis_distribution_filename: cis_rhel7_linux_rcl.txt
+      when: ansible_distribution_major_version == "2"
+
+    - name: "Set ossec deploy facts for RedHat"
+      set_fact:
+        ossec_server_config_filename: ossec-server.conf
+        ossec_init_name: ossec-hids
+        ossec_authd_init_name: ossec-hids-authd
+  tags:
+    - always
