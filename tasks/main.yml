@@ -5,6 +5,13 @@
   include: "RedHat.yml"
   when:
     - ansible_os_family == "RedHat"
+    - ansible_distribution != "Amazon"
+
+- name: "Install the correct repository"
+  include: "Amazon.yml"
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_distribution == "Amazon"
 
 - name: "Install the correct repository"
   include: "Debian.yml"
