@@ -8,12 +8,19 @@
           - net-tools
           - which
         state: present
-      when: ansible_distribution == 'CentOS'
+      when:
+        - ansible_distribution == 'CentOS'
 
+    - name: "Apt-update"
+      shell: apt-get update
+      when:
+        - ansible_distribution != 'CentOS'
+    
     - name: "Installing tools on NON-CentOS"
       apt:
         name:
           - net-tools
           - apt-transport-https
         state: present
-      when: ansible_distribution != 'CentOS'
+      when:
+        - ansible_distribution != 'CentOS'

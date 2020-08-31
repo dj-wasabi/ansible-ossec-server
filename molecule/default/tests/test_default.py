@@ -32,11 +32,6 @@ def test_ossec_verify_agent_conf(host):
     assert cmd.rc == 0
 
 
-def test_sockets_open(host):
-    if host.system_info.distribution == 'centos':
-        assert host.socket("tcp://:::1515").is_listening
-
-
 def test_ossec_configuration(host):
     ossec = host.file("/var/ossec/etc/ossec.conf")
     assert ossec.user == "root"

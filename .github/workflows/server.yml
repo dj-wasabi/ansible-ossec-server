@@ -14,10 +14,20 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    strategy:
+      fail-fast: false
+      matrix:
+        molecule_distro:
+          - container: centos7
+          - container: centos8
+          - container: ubuntu1604
+          - container: ubuntu1804
+          - container: ubuntu2004
+          - container: debian7
+          - container: debian8
+          - container: debian9
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Check out code
         uses: actions/checkout@v1
@@ -35,7 +45,4 @@ jobs:
       - name: Run role tests
         run: >-
           MY_MOLECULE_CONTAINER=${{ matrix.molecule_distro.container }}
-          MY_MOLECULE_IMAGE=${{ matrix.molecule_distro.image }}
-          MY_MOLECULE_GROUP=${{ matrix.molecule_distro.group }}
-          MY_MOLECULE_DOCKER_COMMAND=${{ matrix.molecule_distro.command }}
           molecule test
