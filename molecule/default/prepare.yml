@@ -8,12 +8,25 @@
           - net-tools
           - which
         state: present
-      when: ansible_distribution == 'CentOS'
+      when:
+        - ansible_os_family == "RedHat"
 
+    - name: "Apt-update"
+      shell: apt-get update
+      args:
+        warn: False
+      when:
+        - ansible_os_family == "Debian"
+    
     - name: "Installing tools on NON-CentOS"
       apt:
         name:
           - net-tools
           - apt-transport-https
+          - sudo
+          - apt-utils
+          - ca-certificates
+          - "{{ 'gnupg-agent' if ansible_distribution_major_version in ['8', '16'] else 'gpg-agent' }}"
         state: present
-      when: ansible_distribution != 'CentOS'
+      when:
+        - ansible_os_family == "Debian"
