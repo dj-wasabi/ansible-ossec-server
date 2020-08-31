@@ -4,6 +4,12 @@ Below an overview of all changes in the releases.
 
 Version (Release date)
 
+0.6.0   (2020-08-31)
+
+  * Update to current ansible/molecule/testinfra and fix CentOS7 init. #31 (By pull request: skyscooby (Thanks!))
+  * Amazon Linux & Local Postfix Relay #33 (By pull request: sblack4 (Thanks!))
+  * Moved from travis to Github Actions.
+
 0.5.0   (2018-09-11)
 
   * Added tests;Removing pyc file #21
