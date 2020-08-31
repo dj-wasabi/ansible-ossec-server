@@ -15,22 +15,6 @@ platforms:
     pre_build_image: True
     networks:
       - name: ossec6
-  # - name: ossec-server-debian
-  #   image: minimum2scp/systemd-stretch
-  #   groups:
-  #     - ossec
-  #   privileged: True
-  #   command: /sbin/init
-  #   networks:
-  #     - name: ossec6
-  # - name: ossec-server-ubuntu
-  #   image: solita/ubuntu-systemd:xenial
-  #   command: /sbin/init
-  #   groups:
-  #     - ossec
-  #   privileged: True
-  #   networks:
-  #     - name: ossec6
 
 provisioner:
   name: ansible
