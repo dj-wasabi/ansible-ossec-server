@@ -4,6 +4,10 @@ Below an overview of all changes in the releases.
 
 Version (Release date)
 
+0.6.1   (2020-09-01)
+
+  * Allow to override GPG checking while installing release.rpm file.
+
 0.6.0   (2020-08-31)
 
   * Update to current ansible/molecule/testinfra and fix CentOS7 init. #31 (By pull request: skyscooby (Thanks!))
