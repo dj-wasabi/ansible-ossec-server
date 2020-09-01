@@ -23,6 +23,7 @@ provisioner:
   inventory:
     group_vars:
       ossec:
+        ossec_server_disable_gpgkey: True
         ossec_server_config:
           mail_to:
             - me@example.com
