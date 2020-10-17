@@ -17,7 +17,7 @@
         warn: False
       when:
         - ansible_os_family == "Debian"
-    
+
     - name: "Installing tools on NON-CentOS"
       apt:
         name:
