@@ -170,7 +170,7 @@ GPLv3
 Author Information
 ------------------
 
-Please send suggestion or pull requests to make this role better. 
+Please send suggestion or pull requests to make this role better.
 
 Github: https://github.com/dj-wasabi/ansible-ossec-server
 
