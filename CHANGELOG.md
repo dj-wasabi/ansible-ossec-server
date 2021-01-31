@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/dj-wasabi/ansible-ossec-server/tree/HEAD)
+
+[Full Changelog](https://github.com/dj-wasabi/ansible-ossec-server/compare/0.6.1...HEAD)
+
+**Implemented enhancements:**
+
+- Added GH Action to automatically update CHANGELOG.md [\#37](https://github.com/dj-wasabi/ansible-ossec-server/pull/37) ([dj-wasabi](https://github.com/dj-wasabi))
+
+**Merged pull requests:**
+
+- Changing requirements file;Adding pre-commit-hooks and fixes [\#36](https://github.com/dj-wasabi/ansible-ossec-server/pull/36) ([dj-wasabi](https://github.com/dj-wasabi))
+
 ## [0.6.1](https://github.com/dj-wasabi/ansible-ossec-server/tree/0.6.1) (2020-09-01)
 
 [Full Changelog](https://github.com/dj-wasabi/ansible-ossec-server/compare/0.6.0...0.6.1)
