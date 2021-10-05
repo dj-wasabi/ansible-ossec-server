@@ -27,7 +27,7 @@
     group: ossec
 
 - name: "Generate SSL files"
-  command: "openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:1825 -keyout sslmanager.key -out sslmanager.cert -subj /CN={{ ossec_server_fqdn }}/"
+  command: "openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:3072 -keyout sslmanager.key -out sslmanager.cert -subj /CN={{ ossec_server_fqdn }}/"
   args:
     creates: sslmanager.cert
     chdir: /var/ossec/etc/
