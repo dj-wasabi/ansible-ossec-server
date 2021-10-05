@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/dj-wasabi/ansible-ossec-server/tree/HEAD)
+
+[Full Changelog](https://github.com/dj-wasabi/ansible-ossec-server/compare/0.6.2...HEAD)
+
+**Merged pull requests:**
+
+- Change SSL key size to 3072 bits [\#38](https://github.com/dj-wasabi/ansible-ossec-server/pull/38) ([jchen1](https://github.com/jchen1))
+
 ## [0.6.2](https://github.com/dj-wasabi/ansible-ossec-server/tree/0.6.2) (2021-01-31)
 
 [Full Changelog](https://github.com/dj-wasabi/ansible-ossec-server/compare/0.6.1...0.6.2)
