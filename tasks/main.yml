@@ -19,7 +19,7 @@
     - ansible_os_family == "Debian"
 
 - name: "Install CIS Root Checks"
-  get_url:
+  ansible.builtin.get_url:
     url: "https://raw.githubusercontent.com/ossec/ossec-hids/master/src/rootcheck/db/{{ cis_distribution_filename }}"
     dest: "/var/ossec/etc/shared/{{ cis_distribution_filename }}"
     mode: 0660
@@ -27,7 +27,7 @@
     group: ossec
 
 - name: "Generate SSL files"
-  command: "openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:3072 -keyout sslmanager.key -out sslmanager.cert -subj /CN={{ ossec_server_fqdn }}/"
+  ansible.builtin.command: "openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:3072 -keyout sslmanager.key -out sslmanager.cert -subj /CN={{ ossec_server_fqdn }}/" # yamllint disable-line rule:line-length
   args:
     creates: sslmanager.cert
     chdir: /var/ossec/etc/
@@ -35,7 +35,7 @@
     - config
 
 - name: "Installing SSL files."
-  file:
+  ansible.builtin.file:
     path: /var/ossec/etc/{{ item }}
     owner: root
     group: root
@@ -47,7 +47,7 @@
     - config
 
 - name: "Configure the shared-agent.conf"
-  template:
+  ansible.builtin.template:
     src: var-ossec-etc-shared-agent.conf.j2
     dest: /var/ossec/etc/shared/agent.conf
     owner: ossec
@@ -60,7 +60,7 @@
     - config
 
 - name: "Installing custom local_rules.xml"
-  template:
+  ansible.builtin.template:
     src: "{{ playbook_dir }}/{{ ossec_server_config.local_rules_template }}"
     dest: /var/ossec/rules/local_rules.xml
     owner: root
@@ -76,7 +76,7 @@
     - rules
 
 - name: "Installing the local_rules.xml (default local_rules.xml)"
-  template:
+  ansible.builtin.template:
     src: var-ossec-rules-local_rules.xml.j2
     dest: /var/ossec/rules/local_rules.xml
     owner: root
@@ -92,7 +92,7 @@
     - rules
 
 - name: "Configure the ossec-server"
-  template:
+  ansible.builtin.template:
     src: var-ossec-etc-ossec-server.conf.j2
     dest: /var/ossec/etc/{{ ossec_server_config_filename }}
     owner: root
@@ -105,31 +105,31 @@
     - config
 
 - name: "Check if client-syslog is enabled"
-  shell: |
+  ansible.builtin.shell: |
     set -o pipefail
     "/var/ossec/bin/ossec-control status | grep -c 'ossec-csyslogd is running' | xargs echo"
   register: csyslog_running
-  changed_when: False
-  check_mode: False
+  changed_when: false
+  check_mode: false
   args:
     executable: /bin/bash
   when:
     - ossec_server_config.syslog_outputs is defined
 
 - name: "Enable client-syslog if not running and ossec_server_config.syslog_outputs is given"
-  command: /var/ossec/bin/ossec-control enable client-syslog
+  ansible.builtin.command: /var/ossec/bin/ossec-control enable client-syslog
   when:
     - ossec_server_config.syslog_outputs is defined
     - csyslog_running.stdout == '0'
 
 - name: "Start client-syslog if not running and ossec_server_config.syslog_outputs is given"
-  command: /var/ossec/bin/ossec-control start client-syslog
+  ansible.builtin.command: /var/ossec/bin/ossec-control start client-syslog
   when:
     - ossec_server_config.syslog_outputs is defined
     - csyslog_running.stdout == '0'
 
 - name: "Write ossec-authd init file"
-  template:
+  ansible.builtin.template:
     src: ossec-authd-init.service
     dest: /etc/init.d/ossec-authd
     owner: root
@@ -143,7 +143,7 @@
     - config
 
 - name: "Write ossec-authd systemd file"
-  template:
+  ansible.builtin.template:
     src: ossec-authd.service
     dest: /lib/systemd/system/ossec-authd.service
     mode: 0755
@@ -157,7 +157,7 @@
     - config
 
 - name: "Remove pidfile line from startup script (breaks systemd controlled rc script)"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.d/init.d/ossec-hids-authd
     regex: '^# pidfile:'
     state: absent
@@ -166,7 +166,7 @@
     - ansible_os_family == "RedHat"
 
 - name: "Ensure ossec authd service is started and enabled"
-  service:
+  ansible.builtin.service:
     name: "{{ ossec_authd_init_name }}"
-    enabled: yes
+    enabled: true
     state: started

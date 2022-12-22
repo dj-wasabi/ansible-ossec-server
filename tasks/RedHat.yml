@@ -2,30 +2,30 @@
 # Tasks specific for RedHat systems
 
 - name: "RedHat | Set some facts"
-  set_fact:
+  ansible.builtin.set_fact:
     ansible_distribution: CentOS
   when: ansible_distribution == "RedHat"
   tags:
     - always
 
 - name: "RedHat | Install atomicorp repo"
-  yum:
+  ansible.builtin.yum:
     name: "{{ ossec_download_url }}"
     disable_gpg_check: "{{ ossec_server_disable_gpgkey }}"
     state: present
 
 - name: "RedHat | Install epel repo rpm key"
-  rpm_key:
+  ansible.builtin.rpm_key:
     state: present
     key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
 
 - name: "RedHat | Install epel repo"
-  yum:
+  ansible.builtin.yum:
     name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
 
 - name: "RedHat | Install ossec-hids-server"
-  yum:
+  ansible.builtin.yum:
     pkg:
       - ossec-hids
       - ossec-hids-server
@@ -34,41 +34,41 @@
     - init
 
 - name: "RedHat | set facts"
+  tags:
+    - always
   block:
     - name: "Set Distribution CIS filename for RHEL below 5"
-      set_fact:
+      ansible.builtin.set_fact:
         cis_distribution_filename: cis_rhel_linux_rcl.txt
       when: ansible_distribution_major_version < "5"
 
     - name: "Set Distribution CIS filename for RHEL5"
-      set_fact:
+      ansible.builtin.set_fact:
         cis_distribution_filename: cis_rhel5_linux_rcl.txt
       when: ansible_distribution_major_version == "5"
 
     - name: "Set Distribution CIS filename for RHEL6"
-      set_fact:
+      ansible.builtin.set_fact:
         cis_distribution_filename: cis_rhel6_linux_rcl.txt
       when: ansible_distribution_major_version == "6"
 
     - name: "Set Distribution CIS filename for RHEL7"
-      set_fact:
+      ansible.builtin.set_fact:
         cis_distribution_filename: cis_rhel7_linux_rcl.txt
       when: ansible_distribution_major_version == "7"
 
     - name: "Set Distribution CIS filename for RHEL7"
-      set_fact:
+      ansible.builtin.set_fact:
         cis_distribution_filename: cis_rhel7_linux_rcl.txt
       when: ansible_distribution_major_version == "7"
 
     - name: "Set Distribution CIS filename for RHEL8 to that of RHEL7"
-      set_fact:
+      ansible.builtin.set_fact:
         cis_distribution_filename: cis_rhel7_linux_rcl.txt
       when: ansible_distribution_major_version == "8"
 
     - name: "Set ossec deploy facts for RedHat"
-      set_fact:
+      ansible.builtin.set_fact:
         ossec_server_config_filename: ossec-server.conf
         ossec_init_name: ossec-hids
         ossec_authd_init_name: ossec-hids-authd
-  tags:
-    - always
