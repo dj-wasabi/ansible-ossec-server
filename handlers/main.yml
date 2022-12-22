@@ -1,13 +1,13 @@
 ---
 # handlers file for ossec-server
 
-- name: restart ossec-server
-  service:
+- name: Restart ossec-server
+  ansible.builtin.service:
     name: "{{ ossec_init_name }}"
     state: restarted
-    enabled: yes
+    enabled: true
 
-- name: systemd daemon-reload
+- name: Systemd daemon-reload
   command: systemctl daemon-reload
   tags:
     - skip_ansible_lint

@@ -1,27 +1,28 @@
 ---
 - name: "Debian/Ubuntu | Installing repository key"
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://www.atomicorp.com/RPM-GPG-KEY.atomicorp.txt
 
 - name: "Debian/Ubuntu | Installing repository"
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb https://updates.atomicorp.com/channels/atomic/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
     state: present
 
 - name: "Debian/Ubuntu | Install ossec-hids"
-  apt:
+  ansible.builtin.apt:
     pkg: ossec-hids-server
     state: present
 
-- block:
+- name: Set variables
+  tags:
+    - always
+  block:
     - name: "Set Distribution CIS filename for Debian/Ubuntu"
-      set_fact:
+      ansible.builtin.set_fact:
         cis_distribution_filename: cis_debian_linux_rcl.txt
 
     - name: "Set ossec deploy facts for Debian"
-      set_fact:
+      ansible.builtin.set_fact:
         ossec_server_config_filename: ossec.conf
         ossec_init_name: ossec
         ossec_authd_init_name: ossec
-  tags:
-    - always
